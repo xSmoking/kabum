@@ -1,0 +1,50 @@
+<div class="container" ng-controller="dashboard.homeController" ng-init="init()">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div ng-show="showAlert" class="alert {{ alertType }}" role="alert">
+                {{ alertMessage }}
+            </div>
+            <h3>Dados Cadastrais</h3>
+            <form name="form" ng-submit="submit()">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="name">Nome</label>
+                            <input type="text" id="name" class="form-control" name="name" ng-model="name" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="cpf">CPF</label>
+                            <input type="text" id="cpf" class="form-control" name="cpf" ng-model="cpf" ng-cpf ui-mask="999.999.999-99" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="rg">RG</label>
+                            <input type="text" id="rg" class="form-control" name="rg" ng-model="rg" ui-mask="99.999.999-9" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="phone">Telefone</label>
+                            <input type="text" id="phone" class="form-control" name="phone" ng-model="phone" ui-mask="(99) 99999-9999" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="birthdate">Data de Nascimento</label>
+                            <input type="text" id="birthdate" class="form-control" name="birthdate" ng-model="birthdate" ui-mask="99/99/9999" required>
+                        </div>
+                    </div>
+                </div>
+    
+                <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            </form>
+        </div>
+    </div>
+</div>

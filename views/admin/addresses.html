@@ -1,0 +1,192 @@
+<div class="container" ng-controller="admin.addressesController" ng-init="init()">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 class="float-left">Endereços de {{ name }}</h3>
+                    <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#addModal" ng-click="clearAdd()">Adicionar Endereço</button>
+                </div>
+            </div>
+            <div class="list-group list-group-flush" style="margin-bottom:10px;">
+                <li class="list-group-item"
+                    ng-repeat="address in addresses">
+                    {{ address.address }}, {{ address.number }}, {{ address.city }} - {{ address.zip }}
+                    <span class="float-right">
+                        <a href="" data-toggle="modal" data-target="#editModal" ng-click="select(address)"><i class="fas fa-edit"></i></a>
+                        <a href="" data-toggle="modal" data-target="#deleteModal" ng-click="select(address)"><i class="fas fa-times"></i></a>
+                    </span>
+                </li>
+            </div>
+            <a href="#!/admin" class="btn btn-dark">Voltar</a>
+        </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="addModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Adicionar Endereço</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form name="addAddress" ng-submit="add()">
+                    <div class="modal-body">
+                        <div ng-show="addAddress.showAlert" class="alert {{ addAddress.alertType }}" role="alert">
+                            {{ addAddress.alertText }}
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="addAddress.zip">Insira o CEP *</label>
+                                    <input type="text" name="addAddress.zip" id="addAddress.zip" class="form-control" ng-model="addAddress.zip" ng-blur="lookupZip()" ui-mask="99.999-999" />
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="addAddress.address">Endereço *</label>
+                                    <input type="text" name="addAddress.address" id="addAddress.address" class="form-control" ng-model="addAddress.address" readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="addAddress.number">Número *</label>
+                                    <input type="number" name="addAddress.number" id="addAddress.number" class="form-control" ng-model="addAddress.number" />
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="addAddress.complement">Complemento</label>
+                                    <input type="text" name="addAddress.complement" id="addAddress.complement" class="form-control" ng-model="addAddress.complement" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="addAddress.district">Bairro *</label>
+                                    <input type="text" name="addAddress.district" id="addAddress.district" class="form-control" ng-model="addAddress.district" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="addAddress.city">City *</label>
+                                    <input type="text" name="addAddress.city" id="addAddress.city" class="form-control" ng-model="addAddress.city" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="addAddress.state">Estado *</label>
+                                    <input type="text" name="addAddress.state" id="addAddress.state" class="form-control" ng-model="addAddress.state" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade bd-example-modal-lg" id="editModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Alterar Endereço</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form name="editAddress" ng-submit="edit()">
+                    <div class="modal-body">
+                        <div ng-show="editAddress.showAlert" class="alert {{ editAddress.alertType }}" role="alert">
+                            {{ editAddress.alertText }}
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="editAddress.zip">Insira o CEP *</label>
+                                    <input type="text" name="editAddress.zip" id="editAddress.zip" class="form-control" ng-model="editAddress.zip" ui-mask="99.999-999" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="editAddress.address">Endereço *</label>
+                                    <input type="text" name="editAddress.address" id="editAddress.address" class="form-control" ng-model="editAddress.address" readonly />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="editAddress.number">Número *</label>
+                                    <input type="text" name="editAddress.number" id="editAddress.number" class="form-control" ng-model="editAddress.number" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="editAddress.complement">Complemento</label>
+                                    <input type="text" name="editAddress.complement" id="editAddress.complement" class="form-control" ng-model="editAddress.complement" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="editAddress.district">Bairro *</label>
+                                    <input type="text" name="editAddress.district" id="editAddress.district" class="form-control" ng-model="editAddress.district" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="editAddress.city">City *</label>
+                                    <input type="text" name="editAddress.city" id="editAddress.city" class="form-control" ng-model="editAddress.city" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="editAddress.state">Estado *</label>
+                                    <input type="text" name="editAddress.state" id="editAddress.state" class="form-control" ng-model="editAddress.state" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Remover Endereço</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form name="deleteAddress" ng-submit="delete()">
+                    <div class="modal-body">
+                        <div ng-show="deleteAddress.showAlert" class="alert {{ deleteAddress.alertType }}" role="alert">
+                            {{ deleteAddress.alertText }}
+                        </div>
+                        Você realmente deseja remover esse endereço?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Confirmar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
