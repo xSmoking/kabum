@@ -1,6 +1,6 @@
 # Kabum - CRUD com Painel de Usuário
 
-CRUD com login, cadastro e painel de usuário em AngularJS e PHP.
+Sistema simples com CRUD, login, cadastro e painel de usuário em AngularJS e PHP. API não utiliza token para validação.
 
 ## Instruções
 
