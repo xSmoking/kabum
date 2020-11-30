@@ -4,9 +4,14 @@ CRUD com login, cadastro e painel de usuário em AngularJS e PHP.
 
 ## Instruções
 
-Arquivo de configuração de banco de dados da API em
-```bash
-api/config/Database.php
+Arquivo de configuração de banco de dados da API em:
+```
+/api/config/Database.php
+```
+
+Painel de administração (não necessita de login ou permissões):
+```
+/admin
 ```
 
 ## Documentação
